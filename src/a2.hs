@@ -19,3 +19,22 @@ doif f g [] = []
 doif f g (h:t)
   | f h = g h : doif f g t
   | otherwise = h : doif f g t
+
+-- (i) the inferred type of doif is (a -> Bool) -> (a -> a) -> [a] -> [a]
+-- (ii) [11,11,33,22,55,33]
+-- (iii)
+toUpper :: Char -> Char
+toUpper x = toEnum (fromEnum x - fromEnum 'a' + fromEnum 'A')
+
+capvowel (e:r) = doif1 (\x -> elem x vowels) (toUpper) (e : r)
+  where
+    vowels = ['a', 'e', 'i', 'o', 'u']
+
+-- (iv)
+-- doif1 f g [] = []
+doif1 f g (h:t) =
+  [ if f x
+    then g x
+    else x
+  | x <- (h : t)
+  ]
